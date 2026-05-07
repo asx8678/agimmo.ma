@@ -53,7 +53,7 @@ The build output is generated in `dist/`.
 ```bash
 npm install
 npm run build
-npx wrangler pages deploy dist --project-name=agimmo-ma
+npm run deploy
 ```
 
 ## Important edits before production
