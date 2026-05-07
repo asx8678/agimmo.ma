@@ -37,55 +37,47 @@ The build output is generated in `dist/`.
 
 ## Cloudflare Pages deployment
 
-### Option 1: Git integration (recommended — no API token needed)
+This project uses **Cloudflare Pages Git integration** — no API token, no deploy key, no `CLOUDFLARE_API_TOKEN` required.
 
-1. Push this folder to a GitHub or GitLab repository.
-2. In Cloudflare, create a Pages project and connect the repository.
+### Setup
+
+1. Push this repository to GitHub or GitLab.
+2. In the Cloudflare dashboard, create a Pages project and connect the repository.
 3. Use these settings:
-   - Framework preset: Astro
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-   - Deploy command: **leave blank / disabled** (do **not** set it to `npx wrangler deploy`)
-   - Node version: `22.12.0` or newer
+
+   | Setting | Value |
+   |---|---|
+   | Framework preset | Astro |
+   | Build command | `npm run build` |
+   | Build output directory | `dist` |
+   | **Deploy command** | **Leave blank / disabled** |
+   | Node.js version | `22.12.0` or newer |
+
 4. Add the custom domain `agimmo.ma` in Cloudflare Pages.
 
-> **Why blank deploy command?** The Git integration handles deployment automatically after the build. Setting a deploy command like `npx wrangler deploy` will attempt a redundant Wrangler-based deploy that requires an API token and will fail with auth error 10000 if no token is present.
+That's it. Every push triggers a build and automatic deployment — no secrets, no tokens, no CLI deploy step.
 
-### Option 2: Wrangler direct upload (CI / manual deploy)
+### ⚠️ Do NOT set a deploy command in the dashboard
+
+If the dashboard deploy command is set to `npx wrangler deploy` (or similar), Wrangler will try to call the Cloudflare API and fail with **authentication error 10000** because no `CLOUDFLARE_API_TOKEN` is configured. The correct setup is to **leave the deploy command blank**.
+
+### Safety shim for already-misconfigured platforms
+
+If an external platform is already configured to run `npx wrangler deploy`, a `postinstall` shim (`scripts/fix-wrangler-command.mjs`) intercepts the bare `wrangler deploy` command and exits successfully with an informational message instead of attempting an API call. This prevents auth error 10000 while the dashboard deploy command is being removed.
+
+All other Wrangler subcommands (`pages deploy`, `dev`, `tail`, etc.) pass through to the real Wrangler CLI normally.
+
+### Manual deploy (advanced / local CLI only)
+
+If you ever need to deploy manually from your own machine (not the CI platform), you **must** have `CLOUDFLARE_API_TOKEN` set locally and run:
 
 ```bash
-npm install
-npm run build
-npm run deploy
+npx wrangler pages deploy dist --project-name=agimmo-ma
 ```
 
-The `npm run deploy` script runs `wrangler pages deploy dist --project-name=agimmo-ma`.
+Do **not** use bare `npx wrangler deploy` — it is intercepted by the safety shim and will not deploy.
 
-If an external CI platform requires a deploy command, use **one of**:
-
-- `npm run deploy`
-- `npx wrangler pages deploy dist --project-name=agimmo-ma`
-
-Do **not** use bare `npx wrangler deploy` — it invokes the wrong Wrangler subcommand for Pages projects.
-
-> **Shim note:** A `postinstall` shim (`scripts/fix-wrangler-command.mjs`) rewrites `npx wrangler deploy` → `npx wrangler pages deploy dist --project-name agimmo-ma` so that platforms *already* configured with the bare command continue to work. Prefer the explicit commands above for new configurations.
-
-#### Required `CLOUDFLARE_API_TOKEN` permissions
-
-If deployment fails with Cloudflare API Authentication error **10000**, check the token:
-
-1. `CLOUDFLARE_API_TOKEN` must be set in the environment (CI secret, `.env`, etc.).
-2. The token must have **all** of the following permissions:
-
-   | Permission | Scope |
-   |---|---|
-   | **Account → Cloudflare Pages → Edit** | Account `30e40e1835ed19133596f221954fb64e` |
-   | **Account → Account Settings → Read** | Account `30e40e1835ed19133596f221954fb64e` |
-
-3. The token must belong to a user with access to the target Pages project **`agimmo-ma`**.
-4. Do **not** commit the token to the repository.
-
-If you cannot guarantee token permissions, use **Option 1: Git integration** instead (no token required).
+> **Note:** `npm run deploy` is intentionally a no-op. It prints a reminder that Cloudflare Pages handles deployment automatically and exits 0.
 
 ## Important edits before production
 

@@ -8,8 +8,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "wrangler pages deploy dist --project-name=agimmo-ma",
-    "deploy:pages": "npm run build && npm run deploy",
+    "deploy": "node -e \"console.log('⏭  No-op: Cloudflare Pages deploys automatically via Git integration after build. No API token needed.')\"",
     "check": "astro check",
     "postinstall": "node ./scripts/fix-wrangler-command.mjs"
   },
