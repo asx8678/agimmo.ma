@@ -37,7 +37,7 @@ The build output is generated in `dist/`.
 
 ## Cloudflare Pages deployment
 
-### Option 1: Git integration
+### Option 1: Git integration (recommended — no API token needed)
 
 1. Push this folder to a GitHub or GitLab repository.
 2. In Cloudflare, create a Pages project and connect the repository.
@@ -45,10 +45,13 @@ The build output is generated in `dist/`.
    - Framework preset: Astro
    - Build command: `npm run build`
    - Build output directory: `dist`
+   - Deploy command: **leave blank / disabled** (do **not** set it to `npx wrangler deploy`)
    - Node version: `22.12.0` or newer
 4. Add the custom domain `agimmo.ma` in Cloudflare Pages.
 
-### Option 2: Wrangler direct upload
+> **Why blank deploy command?** The Git integration handles deployment automatically after the build. Setting a deploy command like `npx wrangler deploy` will attempt a redundant Wrangler-based deploy that requires an API token and will fail with auth error 10000 if no token is present.
+
+### Option 2: Wrangler direct upload (CI / manual deploy)
 
 ```bash
 npm install
@@ -56,18 +59,33 @@ npm run build
 npm run deploy
 ```
 
-#### Deploy with token (troubleshooting)
+The `npm run deploy` script runs `wrangler pages deploy dist --project-name=agimmo-ma`.
 
-If deployment fails with an auth error:
+If an external CI platform requires a deploy command, use **one of**:
 
-- Make sure `CLOUDFLARE_API_TOKEN` is defined in the environment.
-- The token must be scoped for Pages deployment on the same Cloudflare account as `30e40e1835ed19133596f221954fb64e`.
-- Required permissions are typically:
-  - `Cloudflare Pages:Edit`
-  - `Account:Read`
-- Confirm the token belongs to a user with access to the target Pages project (`agimmo-ma`).
+- `npm run deploy`
+- `npx wrangler pages deploy dist --project-name=agimmo-ma`
 
-If you can’t guarantee token permissions, use **Cloudflare Pages Git integration** (no token required) and point build command to `npm run build`.
+Do **not** use bare `npx wrangler deploy` — it invokes the wrong Wrangler subcommand for Pages projects.
+
+> **Shim note:** A `postinstall` shim (`scripts/fix-wrangler-command.mjs`) rewrites `npx wrangler deploy` → `npx wrangler pages deploy dist --project-name agimmo-ma` so that platforms *already* configured with the bare command continue to work. Prefer the explicit commands above for new configurations.
+
+#### Required `CLOUDFLARE_API_TOKEN` permissions
+
+If deployment fails with Cloudflare API Authentication error **10000**, check the token:
+
+1. `CLOUDFLARE_API_TOKEN` must be set in the environment (CI secret, `.env`, etc.).
+2. The token must have **all** of the following permissions:
+
+   | Permission | Scope |
+   |---|---|
+   | **Account → Cloudflare Pages → Edit** | Account `30e40e1835ed19133596f221954fb64e` |
+   | **Account → Account Settings → Read** | Account `30e40e1835ed19133596f221954fb64e` |
+
+3. The token must belong to a user with access to the target Pages project **`agimmo-ma`**.
+4. Do **not** commit the token to the repository.
+
+If you cannot guarantee token permissions, use **Option 1: Git integration** instead (no token required).
 
 ## Important edits before production
 
