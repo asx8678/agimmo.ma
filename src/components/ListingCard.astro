@@ -1,0 +1,38 @@
+---
+import type { Property } from '@data/properties';
+
+interface Props {
+  property: Property;
+}
+
+const { property } = Astro.props;
+---
+<article class={`listing-card listing-${property.accent}`}>
+  <a href={`/properties/${property.slug}`} class="listing-media" aria-label={`View ${property.title}`}>
+    <span class="listing-badge">{property.badge}</span>
+    <span class="listing-status">{property.status}</span>
+  </a>
+  <div class="listing-body">
+    <p class="eyebrow">{property.city} · {property.area}</p>
+    <h3><a href={`/properties/${property.slug}`}>{property.title}</a></h3>
+    <p>{property.summary}</p>
+    <dl class="listing-meta">
+      <div>
+        <dt>Type</dt>
+        <dd>{property.type}</dd>
+      </div>
+      <div>
+        <dt>Bedrooms</dt>
+        <dd>{property.bedrooms}</dd>
+      </div>
+      <div>
+        <dt>Size</dt>
+        <dd>{property.size}</dd>
+      </div>
+    </dl>
+    <div class="listing-foot">
+      <strong>{property.price}</strong>
+      <a href={`/properties/${property.slug}`}>View brief</a>
+    </div>
+  </div>
+</article>

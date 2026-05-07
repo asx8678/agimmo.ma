@@ -1,0 +1,15 @@
+{
+  "name": "AG Immo Morocco Real Estate",
+  "short_name": "AG Immo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffaf2",
+  "theme_color": "#0b3b35",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

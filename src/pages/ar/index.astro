@@ -1,0 +1,57 @@
+---
+import CTA from '@components/CTA.astro';
+import ListingCard from '@components/ListingCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { featuredProperties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+const title = 'وكالة عقارية في المغرب للشراء والبيع والكراء';
+const description =
+  'AG Immo وكالة عقارية في المغرب تساعد المشترين والبائعين والمستثمرين في الفلل والشقق والرياضات والعقارات المميزة في مراكش والدار البيضاء والرباط وأكادير وطنجة.';
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/ar')} lang="ar-MA" dir="rtl">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">AG Immo · العقار في المغرب</p>
+      <h1>عقار يلفت الانتباه، واختيار مبني على وضوح.</h1>
+      <p>تساعد AG Immo الزوار على تحويل فكرة الشراء أو البيع أو الكراء إلى طلب واضح ومؤهل في أهم المدن المغربية.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">ابدأ طلبك العقاري</a>
+        <a class="btn btn-ghost" href="/properties">تصفح أمثلة العقارات</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container two-col">
+      <div class="feature-panel dark">
+        <p class="eyebrow">الخدمات</p>
+        <h2>شراء، بيع، كراء، واستثمار عقاري في المغرب.</h2>
+        <p>صفحات سريعة ومتجاوبة ومهيأة لمحركات البحث، مع محتوى واضح للزوار المحليين والدوليين.</p>
+      </div>
+      <div class="feature-panel">
+        <h3>ما يميز AG Immo</h3>
+        <ul class="check-list">
+          <li>بحث خاص عن الفلل والشقق والرياضات والأراضي.</li>
+          <li>محتوى تسويقي قوي للعقارات المعروضة للبيع.</li>
+          <li>دعم للكراء الطويل والكراء الموسمي.</li>
+          <li>صفحات للمدن: مراكش، الدار البيضاء، الرباط، أكادير وطنجة.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ar-biens">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">عقارات مختارة</p>
+        <h2 id="ar-biens">نماذج بطاقات عقارية جاهزة للتطوير.</h2>
+      </div>
+      <div class="listing-grid">
+        {featuredProperties.map((property) => <ListingCard property={property} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="طلبك العقاري" title="أرسل المدينة والميزانية ونوع العقار، وسنحولها إلى خطوة واضحة." primaryLabel="تواصل مع AG Immo" />
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+import { site } from '@data/site';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const normalizedPath = currentPath.replace(/\/$/, '') || '/';
+---
+<header class="site-header" data-header>
+  <div class="container nav-shell">
+    <a class="brand" href="/" aria-label="AG Immo home">
+      <span class="brand-mark" aria-hidden="true">AG</span>
+      <span>
+        <strong>AG Immo</strong>
+        <small>Morocco Real Estate</small>
+      </span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-menu" data-nav-toggle>
+      <span class="sr-only">Open menu</span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+
+    <nav class="main-nav" id="main-menu" aria-label="Primary navigation" data-nav-menu>
+      {site.nav.map((item) => {
+        const active = item.href === '/' ? normalizedPath === '/' : normalizedPath.startsWith(item.href);
+        return (
+          <a href={item.href} class:list={[active && 'active']}>{item.label}</a>
+        );
+      })}
+    </nav>
+
+    <div class="nav-actions">
+      <div class="language-switch" aria-label="Language options">
+        {site.languages.map((language) => (
+          <a href={language.href} lang={language.lang}>{language.label}</a>
+        ))}
+      </div>
+      <a class="btn btn-small" href="/contact">Get a valuation</a>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const menu = document.querySelector('[data-nav-menu]');
+  const header = document.querySelector('[data-header]');
+
+  if (toggle && menu && header) {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      header.toggleAttribute('data-open', !isOpen);
+    });
+  }
+</script>

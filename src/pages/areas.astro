@@ -1,0 +1,30 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CityCard from '@components/CityCard.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { locations } from '@data/locations';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Real Estate Areas in Morocco: Marrakech, Casablanca, Agadir, Rabat & Tangier';
+const description =
+  'Explore AG Immo city guides for Morocco real estate, including Marrakech villas and riads, Casablanca apartments, Agadir coastal homes, Rabat villas and Tangier investments.';
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/areas')}>
+  <Breadcrumbs items={[{ label: 'Areas' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Morocco area guides</p>
+      <h1>Choose the city before you choose the property.</h1>
+      <p>Each Moroccan market rewards a different strategy. Use these SEO-ready city pages to explain lifestyle, neighborhoods and search priorities.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container city-grid">
+      {locations.map((location) => <CityCard location={location} />)}
+    </div>
+  </section>
+
+  <CTA eyebrow="Area advice" title="Tell AG Immo where you are comparing and receive a more focused city-by-city property strategy." primaryLabel="Compare areas" />
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { absoluteUrl } from '@data/site';
+
+const title = 'About AG Immo: Morocco Real Estate Agency';
+const description =
+  'AG Immo is a Morocco real estate agency website built for property search, seller marketing, rentals and investment guidance across key Moroccan cities.';
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/about')}>
+  <Breadcrumbs items={[{ label: 'About' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">About AG Immo</p>
+      <h1>A modern real estate brand for Morocco’s most searched property moments.</h1>
+      <p>AG Immo is positioned as the agency that pairs persuasive property marketing with disciplined local guidance. The message is simple: beautiful homes, smarter decisions.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container split-section">
+      <div class="feature-panel dark">
+        <p class="eyebrow">Brand promise</p>
+        <h2>Catch attention. Build trust. Convert better inquiries.</h2>
+        <p>This website gives AG Immo a premium digital foundation with SEO pages, conversion-focused calls to action and multilingual market cues for Morocco.</p>
+      </div>
+      <div class="feature-panel">
+        <h3>Agency positioning</h3>
+        <ul class="check-list">
+          <li>Local insight for buyers, sellers, renters and investors.</li>
+          <li>Premium copywriting for villas, apartments, riads, land and new projects.</li>
+          <li>Helpful city content for Marrakech, Casablanca, Agadir, Rabat and Tangier.</li>
+          <li>Flexible static architecture that can later connect to a CMS or listing feed.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="values-title">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Values</p>
+        <h2 id="values-title">What visitors should feel when they arrive.</h2>
+      </div>
+      <div class="process-grid">
+        <article class="process-card"><p class="eyebrow">Clarity</p><h3>No confusing property noise</h3><p>Each page moves the visitor toward a clear brief, useful content or a relevant inquiry.</p></article>
+        <article class="process-card"><p class="eyebrow">Taste</p><h3>Premium without being cold</h3><p>Moroccan warmth meets clean design, polished typography and refined spacing.</p></article>
+        <article class="process-card"><p class="eyebrow">Trust</p><h3>Practical over exaggerated</h3><p>The copy makes strong claims about service quality without inventing unverifiable statistics.</p></article>
+        <article class="process-card"><p class="eyebrow">Growth</p><h3>SEO-first structure</h3><p>City, service, property and guide pages give AG Immo room to grow organic traffic.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="Work with AG Immo" title="Ready to position your property search or listing with more confidence?" primaryLabel="Contact the agency" />
+</BaseLayout>

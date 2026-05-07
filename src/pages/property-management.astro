@@ -1,0 +1,62 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Property Management in Morocco for Owners and Investors';
+const description =
+  'AG Immo property management support in Morocco for rental-ready villas, apartments and riads, including presentation, guest flow, maintenance coordination and owner reporting.';
+const schema = {
+  '@type': 'Service',
+  name: 'Property management in Morocco',
+  provider: { '@id': 'https://agimmo.ma/#organization' },
+  areaServed: 'Morocco',
+  serviceType: 'Real estate property management'
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/property-management')} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Property management' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Owner support</p>
+      <h1>Make your Morocco property easier to rent, maintain and trust.</h1>
+      <p>Property management begins before a guest or tenant arrives. AG Immo helps owners prepare presentation, expectations and local coordination.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">Discuss owner support</a>
+        <a class="btn btn-ghost" href="/sell">Sell instead</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container two-col">
+      <div class="feature-panel dark">
+        <p class="eyebrow">Management mindset</p>
+        <h2>Rental success is built from details.</h2>
+        <p>The best owner experience comes from clear inventory, realistic pricing, quick communication and trusted local execution.</p>
+      </div>
+      <div class="feature-panel">
+        <h3>Support areas</h3>
+        <ul class="check-list">
+          <li>Rental-readiness audit and furnishing recommendations.</li>
+          <li>Listing copy, photo priorities and guest information.</li>
+          <li>Inquiry qualification and handover coordination.</li>
+          <li>Maintenance follow-up and owner update rhythm.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="management-cities">
+    <div class="container">
+      <div class="section-heading center">
+        <p class="eyebrow">Where it helps most</p>
+        <h2 id="management-cities">Ideal for villas, coastal apartments, riads and furnished city homes.</h2>
+        <p>Owners in Marrakech, Agadir, Casablanca, Rabat and Tangier can use this website’s inquiry flow to attract better-qualified rental and management requests.</p>
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="Owner brief" title="Send the basics of your property and receive a practical management conversation starter." primaryLabel="Start owner brief" />
+</BaseLayout>

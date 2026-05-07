@@ -1,0 +1,72 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Sell Property in Morocco with Better Positioning and Qualified Buyers';
+const description =
+  'Sell your villa, apartment, riad, land or commercial property in Morocco with AG Immo. Get valuation guidance, listing strategy, SEO copy and buyer qualification.';
+const schema = {
+  '@type': 'Service',
+  name: 'Property selling service in Morocco',
+  provider: { '@id': 'https://agimmo.ma/#organization' },
+  areaServed: 'Morocco',
+  serviceType: 'Real estate seller representation'
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/sell')} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Sell property' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Sell with confidence</p>
+      <h1>Turn your property into a listing buyers remember.</h1>
+      <p>AG Immo combines pricing logic, emotional storytelling and qualified inquiry handling to help owners sell without losing control of the process.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">Request a valuation</a>
+        <a class="btn btn-ghost" href="/blog/sell-property-morocco-faster">Read seller guide</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container stats-grid">
+      <article class="stat-card">
+        <p class="eyebrow">Pricing</p>
+        <h3>Market-aware valuation</h3>
+        <p>Position your property against comparable listings, buyer demand and the condition buyers will notice first.</p>
+      </article>
+      <article class="stat-card">
+        <p class="eyebrow">Presentation</p>
+        <h3>Copy that creates desire</h3>
+        <p>Every listing needs a reason to act: location, lifestyle, rental use, renovation upside or family comfort.</p>
+      </article>
+      <article class="stat-card">
+        <p class="eyebrow">Negotiation</p>
+        <h3>Fewer weak inquiries</h3>
+        <p>Qualified buyers save time. AG Immo helps filter curiosity from serious interest before visits and offers.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="seller-process">
+    <div class="container two-col">
+      <div class="feature-panel">
+        <p class="eyebrow">Seller package</p>
+        <h2 id="seller-process">From hidden value to visible demand.</h2>
+        <p>Strong marketing does not just list rooms and square meters. It explains why a buyer should choose your property now.</p>
+      </div>
+      <div class="feature-panel dark">
+        <h3>What AG Immo prepares</h3>
+        <ul class="check-list">
+          <li>Suggested positioning and listing angle.</li>
+          <li>Room-by-room details and must-have buyer information.</li>
+          <li>SEO-friendly title, description and neighborhood keywords.</li>
+          <li>Inquiry scripts for fast, consistent response.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="Owner next step" title="Get a seller brief that shows how your Morocco property should be priced, presented and promoted." primaryLabel="Request my valuation" secondaryLabel="Contact AG Immo" secondaryHref="/contact" />
+</BaseLayout>

@@ -1,0 +1,104 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import ListingCard from '@components/ListingCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { locations } from '@data/locations';
+import { properties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+export function getStaticPaths() {
+  return locations.map((location) => ({
+    params: { slug: location.slug },
+    props: { location }
+  }));
+}
+
+const { location } = Astro.props as { location: (typeof locations)[number] };
+const matchingProperties = properties.filter((property) => property.city.toLowerCase() === location.city.toLowerCase());
+const schema = {
+  '@type': 'Place',
+  name: `${location.city} real estate`,
+  description: location.intro,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: location.city,
+    addressCountry: 'MA'
+  }
+};
+---
+<BaseLayout title={location.metaTitle} description={location.metaDescription} canonical={absoluteUrl(`/areas/${location.slug}`)} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Areas', href: '/areas' }, { label: location.city }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Real estate in {location.city}</p>
+      <h1>{location.headline}</h1>
+      <p>{location.intro}</p>
+      <div class="hero-actions">
+        <a class="btn" href={`/contact?city=${location.slug}`}>Start a {location.city} search</a>
+        <a class="btn btn-ghost" href="/properties">Browse property briefs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container two-col">
+      <div class="feature-panel dark">
+        <p class="eyebrow">Neighborhoods</p>
+        <h2>{location.city} areas buyers ask about</h2>
+        <ul class="tag-list" style="margin-top: 1rem;">
+          {location.neighborhoods.map((neighborhood) => <li>{neighborhood}</li>)}
+        </ul>
+      </div>
+      <div class="feature-panel">
+        <p class="eyebrow">AG Immo support</p>
+        <h2>Search services for {location.city}</h2>
+        <ul class="check-list">
+          {location.services.map((service) => <li>{service}</li>)}
+        </ul>
+        <p class="keyword-pill" style="margin-top: 1rem;">{location.keywordLine}</p>
+      </div>
+    </div>
+  </section>
+
+  {matchingProperties.length > 0 && (
+    <section class="section" aria-labelledby="city-properties">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Featured in {location.city}</p>
+          <h2 id="city-properties">Property briefs connected to this city.</h2>
+        </div>
+        <div class="listing-grid">
+          {matchingProperties.map((property) => <ListingCard property={property} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section-tight">
+    <div class="container process-grid">
+      <article class="process-card">
+        <p class="eyebrow">Local fit</p>
+        <h3>Match lifestyle to neighborhood</h3>
+        <p>Schools, transport, beaches, business zones and privacy all change the real value of a property.</p>
+      </article>
+      <article class="process-card">
+        <p class="eyebrow">Asset type</p>
+        <h3>Compare property formats</h3>
+        <p>Villas, apartments, riads, land and new projects attract different buyers and require different checks.</p>
+      </article>
+      <article class="process-card">
+        <p class="eyebrow">Demand</p>
+        <h3>Think about future buyers</h3>
+        <p>Strong resale logic often starts with simple layouts, clear location benefits and reliable documentation.</p>
+      </article>
+      <article class="process-card">
+        <p class="eyebrow">Action</p>
+        <h3>Move from search to visit</h3>
+        <p>AG Immo helps convert city research into a shortlist worth seeing.</p>
+      </article>
+    </div>
+  </section>
+
+  <CTA eyebrow={`${location.city} brief`} title={`Need real estate in ${location.city}? Send AG Immo your criteria and get a sharper shortlist.`} primaryLabel={`Search ${location.city}`} />
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const {
+  eyebrow = 'Start smart',
+  title = 'Tell AG Immo what you want. We will shape the property shortlist around it.',
+  body = 'Share your city, budget, timeline and must-haves. The next step is a qualified property brief, not a flood of irrelevant listings.',
+  primaryLabel = 'Request my property brief',
+  primaryHref = '/contact',
+  secondaryLabel = 'Browse properties',
+  secondaryHref = '/properties'
+} = Astro.props;
+---
+<section class="cta-band" aria-labelledby="cta-title">
+  <div>
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 id="cta-title">{title}</h2>
+    <p>{body}</p>
+  </div>
+  <div class="cta-actions">
+    <a class="btn" href={primaryHref}>{primaryLabel}</a>
+    <a class="btn btn-ghost" href={secondaryHref}>{secondaryLabel}</a>
+  </div>
+</section>

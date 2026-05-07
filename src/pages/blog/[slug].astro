@@ -1,0 +1,50 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { posts } from '@data/blog';
+import { absoluteUrl } from '@data/site';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props as { post: (typeof posts)[number] };
+const schema = {
+  '@type': 'Article',
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.date,
+  dateModified: post.date,
+  author: {
+    '@type': 'Organization',
+    name: 'AG Immo'
+  },
+  publisher: { '@id': 'https://agimmo.ma/#organization' },
+  mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`)
+};
+---
+<BaseLayout title={post.metaTitle} description={post.metaDescription} canonical={absoluteUrl(`/blog/${post.slug}`)} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: post.title }]} />
+  <article class="article">
+    <header class="page-hero">
+      <div class="container narrow">
+        <p class="eyebrow">{post.category} · {post.readTime}</p>
+        <h1>{post.title}</h1>
+        <p>{post.excerpt}</p>
+      </div>
+    </header>
+    <div class="container article-body">
+      {post.sections.map((section) => (
+        <section>
+          <h2>{section.heading}</h2>
+          <p>{section.body}</p>
+        </section>
+      ))}
+    </div>
+  </article>
+  <CTA eyebrow="Need personal guidance?" title="Ask AG Immo to apply this advice to your city, property type and budget." primaryLabel="Request advice" />
+</BaseLayout>

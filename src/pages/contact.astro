@@ -1,0 +1,103 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { absoluteUrl, site } from '@data/site';
+
+const title = 'Contact AG Immo: Real Estate Agency in Morocco';
+const description =
+  'Contact AG Immo for buying, selling, renting, valuation and property management inquiries in Morocco. Send your real estate brief for Marrakech, Casablanca, Rabat, Agadir, Tangier and more.';
+const requestedProperty = Astro.url.searchParams.get('property') ?? '';
+const requestedCity = Astro.url.searchParams.get('city') ?? '';
+const schema = {
+  '@type': 'ContactPage',
+  name: 'Contact AG Immo',
+  url: absoluteUrl('/contact'),
+  about: { '@id': 'https://agimmo.ma/#organization' }
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/contact')} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Contact' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Contact AG Immo</p>
+      <h1>Send your Morocco property brief. Make the next step easy.</h1>
+      <p>Tell AG Immo what you want to buy, sell, rent or manage. The clearer the brief, the stronger the shortlist, valuation or owner plan.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container contact-grid">
+      <div>
+        <div class="contact-card">
+          <p class="eyebrow">Direct contact</p>
+          <h2>Speak with AG Immo</h2>
+          <p>Email and WhatsApp links are ready to replace with your real agency contact details.</p>
+          <ul class="clean-list">
+            <li><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><strong>WhatsApp:</strong> <a href={`https://wa.me/${site.whatsapp}`}>{site.phoneDisplay}</a></li>
+            <li><strong>Website:</strong> {site.domain}</li>
+          </ul>
+        </div>
+        <div class="contact-card">
+          <p class="eyebrow">What to include</p>
+          <ul class="check-list">
+            <li>City and preferred neighborhoods.</li>
+            <li>Budget range or target sale price.</li>
+            <li>Property type, surface, bedrooms and must-have features.</li>
+            <li>Timeline and whether you are local or abroad.</li>
+          </ul>
+        </div>
+      </div>
+
+      <form class="contact-form" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+        <div>
+          <p class="eyebrow">Property brief</p>
+          <h2>How can AG Immo help?</h2>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="phone">Phone or WhatsApp</label>
+            <input id="phone" name="phone" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="goal">I want to</label>
+            <select id="goal" name="goal">
+              <option>Buy property</option>
+              <option>Rent property</option>
+              <option>Sell property</option>
+              <option>Request valuation</option>
+              <option>Discuss property management</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="city">City</label>
+            <input id="city" name="city" value={requestedCity} placeholder="Marrakech, Casablanca, Agadir..." />
+          </div>
+          <div class="field">
+            <label for="budget">Budget or price</label>
+            <input id="budget" name="budget" placeholder="Example: 3,000,000 MAD" />
+          </div>
+        </div>
+        {requestedProperty && <input type="hidden" name="property" value={requestedProperty} />}
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell us about the property, location, timing and must-haves."></textarea>
+        </div>
+        <button class="btn" type="submit">Send message</button>
+        <p class="form-note">This static form uses mailto by default. Replace the form action with your CRM, Cloudflare Pages Function or form service endpoint for production lead capture.</p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

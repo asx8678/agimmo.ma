@@ -1,0 +1,42 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { posts } from '@data/blog';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Morocco Real Estate Guides for Buyers, Sellers and Investors';
+const description =
+  'Read AG Immo real estate guides about buying, selling, renting and investing in property in Morocco, including city strategies and owner tips.';
+const schema = {
+  '@type': 'Blog',
+  name: 'AG Immo Morocco Real Estate Guides',
+  url: absoluteUrl('/blog')
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/blog')} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Blog' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Real estate guides</p>
+      <h1>Morocco property advice written for search engines and real decisions.</h1>
+      <p>Use these blog templates to capture buyer questions, seller intent and investment comparisons that bring qualified traffic to AG Immo.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container blog-grid">
+      {posts.map((post) => (
+        <article class="blog-card">
+          <p class="eyebrow">{post.category}</p>
+          <h2><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
+          <p>{post.excerpt}</p>
+          <p><strong>{post.readTime}</strong> · {post.date}</p>
+          <a class="text-link" href={`/blog/${post.slug}`}>Read guide</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <CTA eyebrow="Have a property question?" title="Turn your question into a clear next step with AG Immo." primaryLabel="Ask AG Immo" />
+</BaseLayout>

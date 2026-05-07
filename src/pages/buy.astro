@@ -1,0 +1,92 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import ListingCard from '@components/ListingCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { properties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Buy Property in Morocco with a Focused Private Search';
+const description =
+  'Buy villas, apartments, riads, land and investment property in Morocco with AG Immo. Get a focused buyer brief, local guidance and curated property visits.';
+const breadcrumbs = [{ label: 'Buy property' }];
+const schema = {
+  '@type': 'Service',
+  name: 'Property buying service in Morocco',
+  provider: { '@id': 'https://agimmo.ma/#organization' },
+  areaServed: 'Morocco',
+  serviceType: 'Real estate buyer representation'
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/buy')} jsonLd={schema}>
+  <Breadcrumbs items={breadcrumbs} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Buy in Morocco</p>
+      <h1>Buy the right property, not just the next property you see.</h1>
+      <p>AG Immo helps you define the brief, compare neighborhoods, filter risk and move from browsing to serious visits with a shortlist that respects your time.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">Build my buyer brief</a>
+        <a class="btn btn-ghost" href="/properties">See property examples</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container process-grid">
+      <article class="process-card">
+        <p class="eyebrow">01</p>
+        <h3>Define the smart brief</h3>
+        <p>City, neighborhood, property type, budget, legal questions, rental goals and lifestyle must-haves.</p>
+      </article>
+      <article class="process-card">
+        <p class="eyebrow">02</p>
+        <h3>Shortlist with intent</h3>
+        <p>We focus on properties that fit the brief, reducing wasted visits and weak negotiation positions.</p>
+      </article>
+      <article class="process-card">
+        <p class="eyebrow">03</p>
+        <h3>Visit like an investor</h3>
+        <p>Each visit considers condition, title questions, location liquidity, renovation needs and future demand.</p>
+      </article>
+      <article class="process-card">
+        <p class="eyebrow">04</p>
+        <h3>Move with confidence</h3>
+        <p>AG Immo supports offer strategy and coordinates the next professional steps with your chosen advisers.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="buy-options">
+    <div class="container split-section">
+      <div class="feature-panel dark">
+        <p class="eyebrow">Buyer search keywords</p>
+        <h2 id="buy-options">Apartments, villas, riads, land and new projects.</h2>
+        <p>Whether you want a city apartment, a family villa, a renovated riad or an off-plan project, the strongest search begins with local context.</p>
+      </div>
+      <div class="feature-panel">
+        <h3>What your buyer brief can include</h3>
+        <ul class="check-list">
+          <li>Neighborhood comparison for Marrakech, Casablanca, Rabat, Agadir or Tangier.</li>
+          <li>Rental potential notes and likely target tenant profile.</li>
+          <li>Questions to ask before offer, including title, co-ownership and maintenance points.</li>
+          <li>Visit schedule built around your travel dates or local availability.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="buyer-listings">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Buyer inspiration</p>
+        <h2 id="buyer-listings">Featured examples for buyers.</h2>
+      </div>
+      <div class="listing-grid">
+        {properties.filter((property) => property.status !== 'For Rent').slice(0, 3).map((property) => <ListingCard property={property} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="Ready to buy?" title="Share your search brief and receive a cleaner path to the right Morocco property." primaryLabel="Start my buyer search" />
+</BaseLayout>

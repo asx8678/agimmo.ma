@@ -1,0 +1,72 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import ListingCard from '@components/ListingCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { properties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Rent Property in Morocco: Apartments, Villas & Holiday Homes';
+const description =
+  'Rent apartments, villas and furnished homes in Morocco with AG Immo. Search long-term rentals, relocation homes and holiday stays in key Moroccan cities.';
+const schema = {
+  '@type': 'Service',
+  name: 'Property rental service in Morocco',
+  provider: { '@id': 'https://agimmo.ma/#organization' },
+  areaServed: 'Morocco',
+  serviceType: 'Real estate rental agency'
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/rent')} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Rent property' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Rent in Morocco</p>
+      <h1>A rental search that understands your lifestyle before showing homes.</h1>
+      <p>From furnished city apartments and family villas to coastal stays, AG Immo helps tenants and owners align terms, timing and expectations.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">Find a rental</a>
+        <a class="btn btn-ghost" href="/property-management">I own a rental</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container card-grid">
+      <article class="info-card">
+        <p class="eyebrow">Long-term</p>
+        <h3>Homes for life and work</h3>
+        <p>Apartments and villas with neighborhood context, commute notes and lease-readiness checks.</p>
+      </article>
+      <article class="info-card">
+        <p class="eyebrow">Relocation</p>
+        <h3>Move-in clarity</h3>
+        <p>Support for families, professionals and returning Moroccans who need practical answers quickly.</p>
+      </article>
+      <article class="info-card">
+        <p class="eyebrow">Holiday</p>
+        <h3>Stays with comfort</h3>
+        <p>Furnished apartments and villas for seasonal demand, beach access and city breaks.</p>
+      </article>
+      <article class="info-card">
+        <p class="eyebrow">Owners</p>
+        <h3>Rental-ready assets</h3>
+        <p>Positioning, presentation and management pathways to attract better tenant inquiries.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="rentals-title">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Rental inspiration</p>
+        <h2 id="rentals-title">Featured rental-style property briefs.</h2>
+      </div>
+      <div class="listing-grid">
+        {properties.filter((property) => property.status === 'For Rent' || property.city === 'Agadir' || property.city === 'Rabat').slice(0, 3).map((property) => <ListingCard property={property} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="Find a rental" title="Tell us where you want to live, how long you plan to stay and what comfort means to you." primaryLabel="Request rental options" />
+</BaseLayout>

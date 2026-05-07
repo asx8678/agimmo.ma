@@ -1,0 +1,57 @@
+---
+import CTA from '@components/CTA.astro';
+import ListingCard from '@components/ListingCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { featuredProperties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Agence Immobilière au Maroc pour Acheter, Vendre et Louer';
+const description =
+  'AG Immo accompagne les acheteurs, vendeurs, locataires et investisseurs au Maroc: villas, appartements, riads, terrains et biens premium à Marrakech, Casablanca, Rabat, Agadir et Tanger.';
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/fr')} lang="fr-MA">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">AG Immo · Immobilier au Maroc</p>
+      <h1>Le bien immobilier qui donne envie — et qui a du sens.</h1>
+      <p>AG Immo transforme votre projet immobilier au Maroc en recherche claire: achat, vente, location, estimation ou investissement avec une approche locale, élégante et efficace.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">Démarrer ma recherche</a>
+        <a class="btn btn-ghost" href="/properties">Voir les biens</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container two-col">
+      <div class="feature-panel dark">
+        <p class="eyebrow">Services</p>
+        <h2>Achat, vente, location et gestion locative.</h2>
+        <p>Un site pensé pour convertir les visiteurs en demandes qualifiées, avec des pages SEO pour les principales villes du Maroc.</p>
+      </div>
+      <div class="feature-panel">
+        <h3>Ce que AG Immo met en avant</h3>
+        <ul class="check-list">
+          <li>Recherche privée de villas, appartements, riads et terrains.</li>
+          <li>Positionnement vendeur, estimation et storytelling du bien.</li>
+          <li>Location longue durée, location saisonnière et relocation.</li>
+          <li>Contenu optimisé pour Marrakech, Casablanca, Rabat, Agadir et Tanger.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="fr-biens">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Biens à la une</p>
+        <h2 id="fr-biens">Exemples de fiches immobilières premium.</h2>
+      </div>
+      <div class="listing-grid">
+        {featuredProperties.map((property) => <ListingCard property={property} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="Votre projet" title="Envoyez votre ville, votre budget et vos critères. AG Immo vous aide à clarifier la prochaine étape." primaryLabel="Contacter AG Immo" />
+</BaseLayout>

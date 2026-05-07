@@ -1,0 +1,98 @@
+---
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { absoluteUrl, defaultSeo, site } from '@data/site';
+import '@styles/global.css';
+
+type JsonLd = Record<string, unknown>;
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  lang?: string;
+  dir?: 'ltr' | 'rtl';
+  noindex?: boolean;
+  jsonLd?: JsonLd | JsonLd[];
+}
+
+const props = Astro.props as Props;
+const title = props.title ?? defaultSeo.title;
+const pageTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+const description = props.description ?? defaultSeo.description;
+const image = absoluteUrl(props.image ?? defaultSeo.image);
+const canonical = props.canonical ?? absoluteUrl(Astro.url.pathname);
+const lang = props.lang ?? 'en-MA';
+const dir = props.dir ?? 'ltr';
+const noindex = props.noindex ?? false;
+const extraJsonLd = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [props.jsonLd]) : [];
+
+const organizationSchema = {
+  '@type': ['Organization', 'RealEstateAgent'],
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  legalName: site.legalName,
+  url: site.url,
+  email: site.email,
+  telephone: site.phoneDisplay,
+  areaServed: ['Morocco', 'Marrakech', 'Casablanca', 'Rabat', 'Agadir', 'Tangier'],
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'MA',
+    addressLocality: site.address
+  },
+  sameAs: Object.values(site.social).filter((value) => value !== '#')
+};
+
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  inLanguage: ['en-MA', 'fr-MA', 'ar-MA'],
+  publisher: { '@id': `${site.url}/#organization` },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${site.url}/properties?search={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
+
+const graph = [organizationSchema, websiteSchema, ...extraJsonLd];
+---
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <meta name="theme-color" content="#0b3b35" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content={site.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })}></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header currentPath={Astro.url.pathname} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

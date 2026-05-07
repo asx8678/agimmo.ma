@@ -1,0 +1,203 @@
+---
+import CTA from '@components/CTA.astro';
+import CityCard from '@components/CityCard.astro';
+import FAQ from '@components/FAQ.astro';
+import ListingCard from '@components/ListingCard.astro';
+import ServiceCard from '@components/ServiceCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { faqs } from '@data/faqs';
+import { locations } from '@data/locations';
+import { featuredProperties } from '@data/properties';
+import { absoluteUrl, site } from '@data/site';
+
+const title = 'Real Estate Agency in Morocco for Buyers, Sellers & Investors';
+const description =
+  'AG Immo is a Morocco real estate agency for buying, selling, renting and investing in villas, apartments, riads, land and premium property across Marrakech, Casablanca, Rabat, Agadir and Tangier.';
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/')} jsonLd={faqSchema}>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">AG Immo · Immobilier au Maroc</p>
+        <h1 id="hero-title">Find the Morocco property that feels right — and makes sense.</h1>
+        <p>
+          Catchy listings attract attention. Careful guidance closes deals. AG Immo connects buyers, renters, sellers and investors with curated real estate opportunities across Morocco’s most wanted cities.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="/contact">Start a private search</a>
+          <a class="btn btn-ghost" href="/properties">View featured properties</a>
+        </div>
+        <div class="hero-trust" aria-label="AG Immo advantages">
+          <div class="trust-pill"><strong>5</strong><span>priority Moroccan cities</span></div>
+          <div class="trust-pill"><strong>3</strong><span>service languages</span></div>
+          <div class="trust-pill"><strong>0</strong><span>irrelevant property spam</span></div>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-label="Property search preview">
+        <div class="property-search-card">
+          <div class="search-card-head">
+            <div>
+              <p class="eyebrow">Private brief</p>
+              <h2>What are you looking for?</h2>
+            </div>
+            <span class="hot-badge">Fast reply</span>
+          </div>
+          <form class="quick-form" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+            <div class="field-grid">
+              <div class="field">
+                <label for="city">City</label>
+                <select id="city" name="city">
+                  <option>Marrakech</option>
+                  <option>Casablanca</option>
+                  <option>Rabat</option>
+                  <option>Agadir</option>
+                  <option>Tangier</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="goal">Goal</label>
+                <select id="goal" name="goal">
+                  <option>Buy</option>
+                  <option>Rent</option>
+                  <option>Sell</option>
+                  <option>Invest</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="budget">Budget</label>
+              <input id="budget" name="budget" placeholder="Example: 2,500,000 MAD" />
+            </div>
+            <button class="btn" type="submit">Send my brief</button>
+          </form>
+        </div>
+        <div class="mini-listing">
+          <strong>Villa · Marrakech</strong>
+          <span>Garden privacy, pool terrace and investment upside.</span>
+        </div>
+        <div class="decor-card">
+          <strong>MA</strong>
+          <span>Local insight for global buyers.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="logo-strip" aria-label="Popular real estate searches in Morocco">
+    <div class="container">
+      <ul>
+        <li>Villas in Marrakech</li>
+        <li>Apartments in Casablanca</li>
+        <li>Riads in Tangier</li>
+        <li>Rentals in Rabat</li>
+        <li>Coastal homes in Agadir</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Real estate services</p>
+        <h2 id="services-title">One agency for the entire property journey.</h2>
+        <p>AG Immo turns vague interest into a focused plan: what to buy, where to search, how to position a sale and how to protect your time.</p>
+      </div>
+      <div class="card-grid">
+        <ServiceCard
+          eyebrow="Buy"
+          title="Curated property search"
+          body="A shortlist built around your budget, lifestyle and long-term goal — from villas and apartments to riads and land."
+          href="/buy"
+          items={['Buyer brief', 'Visit planning', 'Offer support']}
+        />
+        <ServiceCard
+          eyebrow="Sell"
+          title="Listing strategy that sells the story"
+          body="Pricing, copy, presentation and buyer qualification designed to create confidence before the first visit."
+          href="/sell"
+          items={['Valuation guidance', 'SEO listing copy', 'Negotiation support']}
+        />
+        <ServiceCard
+          eyebrow="Rent"
+          title="Homes for living, work and holidays"
+          body="Find furnished apartments, family villas and practical rentals with clear terms and neighborhood context."
+          href="/rent"
+          items={['Long-term rentals', 'Holiday stays', 'Relocation support']}
+        />
+        <ServiceCard
+          eyebrow="Manage"
+          title="Property care after the deal"
+          body="Owner support for rental readiness, guest flow, maintenance coordination and performance-focused presentation."
+          href="/property-management"
+          items={['Rental setup', 'Owner reporting', 'Local coordination']}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="featured-title">
+    <div class="container">
+      <div class="section-heading center">
+        <p class="eyebrow">Featured property briefs</p>
+        <h2 id="featured-title">Homes and investments with a reason to look closer.</h2>
+        <p>Use these sample property briefs as a polished starting point. Replace them with live AG Immo inventory when listings are ready.</p>
+      </div>
+      <div class="listing-grid">
+        {featuredProperties.map((property) => <ListingCard property={property} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="process-title">
+    <div class="container split-section">
+      <div class="image-stack" aria-hidden="true">
+        <div class="image-card large">
+          <div class="image-label">
+            <strong>Morocco, filtered.</strong>
+            <span>Neighborhood context, title questions and visit priorities before you travel.</span>
+          </div>
+        </div>
+        <div class="image-card small"></div>
+      </div>
+      <div class="section-heading">
+        <p class="eyebrow">The AG Immo method</p>
+        <h2 id="process-title">Less scrolling. More qualified property decisions.</h2>
+        <p>Real estate websites can overwhelm visitors. This website is built to rank, persuade and move users into a high-quality inquiry flow.</p>
+        <ul class="check-list">
+          <li>Search-friendly city pages for Marrakech, Casablanca, Agadir, Rabat and Tangier.</li>
+          <li>Conversion-focused calls to action for buyers, sellers, renters and investors.</li>
+          <li>Structured data, canonical URLs, sitemap and clean static output for Cloudflare Pages.</li>
+          <li>Fast Astro pages with minimal JavaScript and responsive mobile-first design.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="cities-title">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Where we search</p>
+        <h2 id="cities-title">Morocco city pages made for SEO and real buyer intent.</h2>
+      </div>
+      <div class="city-grid">
+        {locations.slice(0, 3).map((location) => <CityCard location={location} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+  <FAQ items={faqs} />
+</BaseLayout>

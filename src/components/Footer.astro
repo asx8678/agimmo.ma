@@ -1,0 +1,59 @@
+---
+import { locations } from '@data/locations';
+import { site } from '@data/site';
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand brand-footer" href="/" aria-label="AG Immo home">
+        <span class="brand-mark" aria-hidden="true">AG</span>
+        <span>
+          <strong>AG Immo</strong>
+          <small>Immobilier au Maroc</small>
+        </span>
+      </a>
+      <p>
+        Catchy marketing, careful property guidance and local support for buying, selling, renting and investing across Morocco.
+      </p>
+      <div class="footer-badges" aria-label="Service languages">
+        <span>English</span>
+        <span>Français</span>
+        <span>العربية</span>
+      </div>
+    </div>
+
+    <div>
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="/buy">Buy property</a></li>
+        <li><a href="/rent">Rent property</a></li>
+        <li><a href="/sell">Sell with AG Immo</a></li>
+        <li><a href="/property-management">Property management</a></li>
+        <li><a href="/blog">Real estate guides</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Morocco areas</h2>
+      <ul>
+        {locations.map((location) => (
+          <li><a href={`/areas/${location.slug}`}>Real estate in {location.city}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2>Contact</h2>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={`https://wa.me/${site.whatsapp}`}>WhatsApp {site.phoneDisplay}</a></li>
+        <li>{site.domain}</li>
+      </ul>
+      <a class="btn btn-light" href="/contact">Request a private search</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+    <p><a href="/privacy">Privacy</a> · Built for Cloudflare Pages</p>
+  </div>
+</footer>

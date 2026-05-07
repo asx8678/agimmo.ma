@@ -1,0 +1,40 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import ListingCard from '@components/ListingCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { properties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+const title = 'Featured Properties in Morocco: Villas, Apartments, Riads & Land';
+const description =
+  'Browse AG Immo featured property briefs across Morocco, including villas in Marrakech, apartments in Casablanca, rentals in Agadir, riads in Tangier and homes in Rabat.';
+const itemListSchema = {
+  '@type': 'ItemList',
+  name: 'AG Immo featured properties in Morocco',
+  itemListElement: properties.map((property, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: absoluteUrl(`/properties/${property.slug}`),
+    name: property.title
+  }))
+};
+---
+<BaseLayout title={title} description={description} canonical={absoluteUrl('/properties')} jsonLd={itemListSchema}>
+  <Breadcrumbs items={[{ label: 'Properties' }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Featured property briefs</p>
+      <h1>Morocco property listings written to attract serious inquiries.</h1>
+      <p>These sample briefs show the type of polished listings AG Immo can publish: clear location, property type, lifestyle value, investment logic and a direct inquiry path.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container listing-grid">
+      {properties.map((property) => <ListingCard property={property} />)}
+    </div>
+  </section>
+
+  <CTA eyebrow="Need something specific?" title="Tell us your target city, budget and property type. AG Immo will turn it into a focused search." primaryLabel="Request a custom shortlist" />
+</BaseLayout>

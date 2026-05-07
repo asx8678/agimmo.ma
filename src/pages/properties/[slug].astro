@@ -1,0 +1,100 @@
+---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTA from '@components/CTA.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { properties } from '@data/properties';
+import { absoluteUrl } from '@data/site';
+
+export function getStaticPaths() {
+  return properties.map((property) => ({
+    params: { slug: property.slug },
+    props: { property }
+  }));
+}
+
+const { property } = Astro.props as { property: (typeof properties)[number] };
+const schema = {
+  '@type': 'Product',
+  category: 'Real estate listing',
+  name: property.title,
+  description: property.summary,
+  url: absoluteUrl(`/properties/${property.slug}`),
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: property.city,
+    addressRegion: property.area,
+    addressCountry: 'MA'
+  },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'MAD',
+    availability: 'https://schema.org/InStock',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      priceCurrency: 'MAD',
+      description: property.price
+    }
+  }
+};
+---
+<BaseLayout title={property.seoTitle} description={property.seoDescription} canonical={absoluteUrl(`/properties/${property.slug}`)} jsonLd={schema}>
+  <Breadcrumbs items={[{ label: 'Properties', href: '/properties' }, { label: property.title }]} />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{property.status} · {property.city}</p>
+      <h1>{property.title}</h1>
+      <p>{property.summary}</p>
+      <div class="hero-actions">
+        <a class="btn" href={`/contact?property=${property.slug}`}>Ask about this property</a>
+        <a class="btn btn-ghost" href="/properties">Back to properties</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container property-detail-grid">
+      <div>
+        <div class={`detail-media listing-${property.accent}`} aria-label={`${property.title} visual placeholder`}></div>
+        <div class="feature-panel" style="margin-top: 1.1rem;">
+          <p class="eyebrow">Property story</p>
+          <h2>Why this brief works</h2>
+          <p>{property.summary}</p>
+          <ul class="check-list">
+            {property.highlights.map((highlight) => <li>{highlight}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <aside class="detail-sidebar" aria-label="Property details">
+        <div class="price-card">
+          <p class="eyebrow">Guide price</p>
+          <strong>{property.price}</strong>
+          <p>Request updated availability, visit options and full property documents from AG Immo.</p>
+          <a class="btn" href={`/contact?property=${property.slug}`}>Request details</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>Key facts</h3>
+          <ul class="detail-list">
+            <li><span>City</span><strong>{property.city}</strong></li>
+            <li><span>Area</span><strong>{property.area}</strong></li>
+            <li><span>Type</span><strong>{property.type}</strong></li>
+            <li><span>Status</span><strong>{property.status}</strong></li>
+            <li><span>Bedrooms</span><strong>{property.bedrooms}</strong></li>
+            <li><span>Bathrooms</span><strong>{property.bathrooms}</strong></li>
+            <li><span>Size</span><strong>{property.size}</strong></li>
+          </ul>
+        </div>
+        <div class="sidebar-card">
+          <h3>Next questions</h3>
+          <ul class="check-list compact">
+            <li>Is the title clean and ready for notary review?</li>
+            <li>What furnishings, fees or works are included?</li>
+            <li>What is the best visit window?</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CTA eyebrow="Property inquiry" title={`Want more like ${property.city}? Ask AG Immo for a shortlist built around your criteria.`} primaryLabel="Request similar properties" />
+</BaseLayout>
