@@ -56,6 +56,19 @@ npm run build
 npm run deploy
 ```
 
+#### Deploy with token (troubleshooting)
+
+If deployment fails with an auth error:
+
+- Make sure `CLOUDFLARE_API_TOKEN` is defined in the environment.
+- The token must be scoped for Pages deployment on the same Cloudflare account as `30e40e1835ed19133596f221954fb64e`.
+- Required permissions are typically:
+  - `Cloudflare Pages:Edit`
+  - `Account:Read`
+- Confirm the token belongs to a user with access to the target Pages project (`agimmo-ma`).
+
+If you can’t guarantee token permissions, use **Cloudflare Pages Git integration** (no token required) and point build command to `npm run build`.
+
 ## Important edits before production
 
 Update these placeholders:
